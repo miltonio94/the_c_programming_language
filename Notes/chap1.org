@@ -1,0 +1,116 @@
+#+title: Chapter 1
+
+* Table of content :toc:
+- [[#11-getting-started][1.1 Getting started]]
+- [[#variables-and-arithmetic-expressions][Variables and arithmetic expressions]]
+- [[#13-the-for-statement][1.3 The for statement]]
+- [[#14-symbolic-constants][1.4 Symbolic constants]]
+
+* 1.1 Getting started
+We will start with the simple hell world program that prints hello world to the screen.
+#+INCLUDE: "../chap1/helloWorld/main.c" src c
+We can compile the command using ~cc main.c~, we can then run the program by typing the name of the program on the command line prefixed by ~./~. The name of the program defaults to ~a.out~.
+
+Normally a programmer is at liberty to name a function anything they want, however, every program must have a function named ~main~. This is because the ~main~ function is the begining of the execution of programs.
+
+~main~ will usually rely on other functions to perform the necessery jobs, these could be functions the user of the language wrote or ones from libraries such as the standard library.
+
+The first line of our program tells the compiler about to include information from the standard input output library.
+#+INCLUDE: "../chap1/helloWorld/main.c" src c :lines 1-2
+
+A function can be called by naming it and following it with brackets with a list of arguments between them. Like how were are doing it here
+#+INCLUDE: "../chap1/helloWorld/main.c" src c :lines 4-5
+
+A sequence of characters enclosed within double quotes, like ~"hello world\n"~ , is called a character string, or string constant. The ~\n~ within the string represents a new line character. If you want a new line within your string, you must use this character, inserting a new line within the string constant will produce a compiler error.
+
+* Variables and arithmetic expressions
+Next is a program that will print a table of Fahrenheit temperatures and their Celsius counterpart using the formula C=(5/9)(F-32)
+#+INCLUDE: "../chap1/fehrenheitToCelsius/main.c" src c :lines 1-2
+
+Variables must be declared before their usage in C. A variable declaration consists of the type name followed by a list of variable names.
+#+begin_src c
+int var1, var2, var3;
+#+end_src
+
+We could also initialise our list of variables uppon declaration
+#+begin_src c
+int var1 = 1, var2 = 2, var3 = 3;
+#+end_src
+Variables must be initialised before they are used. Initialasation does not need to be at the point of declaration, it can be after
+#+begin_src c
+int var1;
+var1 = 0;
+#+end_src
+
+The type int means that the variables listed after it are integers. There's also the type float which means flaoting point, or in other words numbers that may have fractions. The size of these two types are dependent on the machine they are compiled for.
+
+The types that C provide are the following
+
+| type     | description                     |
+|----------+---------------------------------|
+| ~char~   | character - a single byte       |
+| ~short~  | short integer                   |
+| ~long~   | long integer                    |
+| ~double~ | double-precision floating point |
+| ~int~    | integer                         |
+| ~float~  | floating point                  |
+The size of thes types are machine dependent.
+
+C also offers arrays, structures and unions of these basi type, pointers to these types and functions that return them.
+
+Each conversion is computed in the same way and so we use a loop to calculate.
+#+begin_src c
+while(fahr <= upper) {
+    // do calculations...
+}
+#+end_src
+
+Most of the work for our program gets carried out in the loop's body. The celsius temperature is computed and assigned to the variable celsius like so
+#+begin_src c
+    celsius = 5 * (fahr - 32) / 9;
+#+end_src
+
+We multiply by 5 and then subtract by nine because integer division truncates (fractinal parts are discarded) in C. This makes it so 5/9 always evaluates to 0 and if we had used the original equation without any changing all our results would be 0.
+
+The original printf usage
+#+begin_src c
+    printf("%d\t%d\n", fahr, celsius);
+#+end_src
+ are not right-justified, however the fix for that is easy
+#+begin_src c
+    printf("%3d %6d\n", fahr, celsius);
+#+end_src
+
+But that's not the real problem with our program is that it's not very accurate as we are using integers. 0 degrees fehrenheit is 17.8 degrees celcious not 17. We can fix this by using floating point variables instead of integers in our arithmetic.
+#+INCLUDE: "../chap1/fehrenheitToCelsius/main2.c" src c
+This solution is mostly the same as the previous one, the main difference being that we are using floats for both ~fahr~ and ~celcious~, and that the equation we use in the code looks much closer to the original one.
+
+The rule for arithimitic in C is that if the operator has integer operands it will perform an integer operation, however if the arithimitic has at least one floating point number the integer will be converted to a floating point before the operation is done. in other words our celsius assignment could have been written like so
+#+begin_src c
+    celsius = (5. / 9.) * (fahr - 32);
+#+end_src
+and it would have worked as intended, but it's good practice to be explicit when we use a floating point number
+The same rule applies to comparission operators.
+
+The characters we can use for the ~printf~ function for printing values are as follows
+| character | description          |
+|-----------+----------------------|
+| %d        | print as decimal     |
+| %f        | print as float       |
+| %o        | print as octal       |
+| %x        | print as hexadecimal |
+| %c        | print as character   |
+| %s        | print as string      |
+| %%        | print self           |
+
+* 1.3 The for statement
+There are more then one way to write a program, we could have written the fehrenheit to celcious program using a for loop instead of a while loop, and here is how it would look like
+#+INCLUDE: "../chap1/fehrenheitToCelsius/main3.c" src c
+
+* 1.4 Symbolic constants
+It is usually bad practice to use numbers in a program. They don't convey any information to someone else that might want to read and change the code later, it makes their purpose ambiguos. One way to deal with this is by providing them names that are meaningful. A ~#define~ does that. It's a way to define a symbolic name or a symbolic constant. it's structure is of
+~#define name replacement list~
+After such a line any occurance of the name will be replaced by the replacement text.
+Here's how we could use it in our previous program
+#+INCLUDE: "../chap1/fehrenheitToCelsius/main4.c" src c
+Symbolic constants are usually written in upper case to distiguinsh them from variable names. Notice that they do not have a semicolon at the end of them.
