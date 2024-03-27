@@ -1,0 +1,75 @@
+#+title: The C Programming Language: Chapter 2
+
+* Table of content :toc:
+- [[#types-operator-and-expressions][Types, Operator, and Expressions]]
+  - [[#21-variable-names][2.1 Variable Names]]
+  - [[#22-data-types-and-size][2.2 Data types and size]]
+  - [[#23-constants][2.3 Constants]]
+  - [[#27-type-conversions][2.7 Type conversions]]
+  - [[#28-increment-and-decrement-operators][2.8 Increment and decrement operators]]
+  - [[#29-bitwise-operators][2.9 Bitwise operators]]
+
+* Types, Operator, and Expressions
+** 2.1 Variable Names
+C has pretty much standard variable naming rules, must only contain letters, numbers and underscores and can't start with a number. It is also not possible to use keywords as variable names There are some conventions. Use camel casing for normal variable and uppercase for symbolic constants.
+** 2.2 Data types and size
+When declaring a char or any of the integer types, it's possible to use the qualifiers ~signed~ and ~unsigned~. Unsigned number are always positive. Signed, is relevant to the ~char~ type that is unsigned by default while other integer types are signed by default.
+** 2.3 Constants
+There are suffixes that can be applied to constant literals to indicate their types and values. To make a integer constant into a long we can apply the ~l~ or ~L~ suffix like so ~183l~, ~832L~.
+The ~u~ or ~U~ suffix  can be applied to make a constant value unsigned, like so ~382u~ or ~9378U~.
+You can apply the exponent infix to a number like so ~3e-7~ which is read as 3 to the power of -7.
+The suffix ~f~ or ~F~ can be applied to a number to force it into being a float like so ~3f~ or ~89F~
+There are also prefixes that can be applied to values to specify them in different formats. An integer can be specified as an octal or a hexadecimal by applying either the 0 leading number for octal or 0x for hexadecimal
+#+begin_src c
+03874 // octal number
+0xffdaee // a hexadecimal number
+0XFFDAEE // a hexadecimal number
+#+end_src
+
+Character constants are usually a single character in between single quotes like ~'c'~. Some times they can be more than one character though like with escape characters such as with the new line character. These character literals are represented as a numerical value that maps to a character.
+Character constants can also be represented by arbitrary byte sized bit patterns specified by one of the two following
+#+begin_src c
+'\000' // where 0 is one to three octal digits
+'\xhh' // and h is one or more hexadecimal digits
+
+// octal representation of characters
+#define VTAB '\013'
+#define BELL '\007'
+
+// hexadecimal representation of characters
+#define VTAB '\xb'
+#define BELL '\x7'
+#+end_src
+
+A table with complete escape sequence
+
+| escape character | description          |
+|------------------+----------------------|
+| \a               | alert                |
+| \b               | backspace            |
+| \f               | formfeed             |
+| \n               | new line             |
+| \r               | carriage return      |
+| \t               | horizontal tab       |
+| \v               | vertical tab         |
+| \\               | backslash            |
+| \?               | question mark        |
+| \'               | single #+begin_quote |
+| \"               | double quote         |
+| \000             | octal number         |
+| \xhh             | hexadecimal number   |
+
+** 2.7 Type conversions
+C has type coercion and it's safe to rely on when a narrow value can be fit a wider one. For example an int will be coerced into a float when doing arithmetic on a floating point value. However when the a value is going from wider to narrower information will be lost.
+** 2.8 Increment and decrement operators
+The increment (~++~) and decrement (~--~) operators can be used as both a prefix or postfix. In both context it will increment a variable by one however if it's used as a prefix it will apply the operation first and if it's used as a postfix it will return the original value in the variable first and then apply the operation.
+** 2.9 Bitwise operators
+Here are the bitwise operators porvided by C
+| operator | what they are            |
+|----------+--------------------------|
+| ~&~      | bitwise AND              |
+| \vert        | bitwise inclusive OR     |
+| ~^~      | bitwise exclusive OR     |
+| <<       | left shift               |
+| >>       | right shift              |
+| ~        | one's complement (unary) |
