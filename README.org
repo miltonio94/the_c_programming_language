@@ -1,3 +1,5 @@
 * The C programming language
 This repo is meant track my progress through the book "The C programming language" by K&R.
 I will use it to keep notes and work through examples and exercises set by the book
+
+I decided to skip on the note taking in some of the content of the book as I've been programming for some time now and already know the content. I made a point to write all the example programs though.
